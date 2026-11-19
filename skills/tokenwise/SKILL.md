@@ -6,7 +6,7 @@ license: MIT
 
 # Tokenwise
 
-Use the task's active instructions and workflow. Preserve the requested deliverable, relevant edge cases and acceptance checks. Apply the smallest useful retrieval step and widen it when evidence is incomplete or contradictory.
+Use the task's active instructions and workflow. Preserve the requested deliverable, relevant edge cases and acceptance checks. Apply the smallest useful retrieval step and widen it when evidence is incomplete or contradictory. On a routine lookup, a single targeted read and direct answer can complete the task. For a small fix, read the affected callers and run its focused check. Add no separate planning or reporting step solely because Tokenwise is active.
 
 Follow explicit requests to use Graphify and any graph-first instructions for the project. Otherwise, use direct search for a known file, symbol or error, and query a current, scoped graph when it can narrow a relationship search across files, modules or notes.
 

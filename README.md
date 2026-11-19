@@ -40,6 +40,10 @@ In Claude Code, start the same request with `/tokenwise`. Expect the setting and
 
 Tokenwise is a standalone [Agent Skill](https://agentskills.io/specification). [Graphify](https://github.com/Graphify-Labs/graphify) is optional. If the graph is missing, stale, or incomplete, Tokenwise can trace relationships directly in source. It follows explicit requests to use Graphify and project graph-first instructions. See the [graph retrieval guide](skills/tokenwise/references/graph-retrieval.md).
 
+## How I use it
+
+Start with Tokenwise on its own. Ordinary project search and source reads are enough for routine lookups and fixes. In my own setup, [Ponytail Full](https://github.com/DietrichGebert/ponytail#install) guides implementation choices while Tokenwise controls what enters context. I use [Graphify](https://github.com/Graphify-Labs/graphify#install) selectively for relationships across files and [Atlas Notes](https://github.com/Noraara/Atlas-Notes) for past decisions. Each companion is optional.
+
 ## Measure the result
 
 Savings depend on the task and how much irrelevant context the agent would otherwise read. Tokenwise has no published benchmark yet. The [evaluation guide](skills/tokenwise/references/evaluation.md) shows how to compare equivalent runs, count retries and graph costs, and check that the result still meets the same requirements.
