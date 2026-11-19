@@ -1,0 +1,6 @@
+interface:
+  display_name: "Tokenwise"
+  short_description: "Find the smallest useful project context"
+  default_prompt: "Use $tokenwise to find and verify the relevant parts of this project."
+policy:
+  allow_implicit_invocation: true
