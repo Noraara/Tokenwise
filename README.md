@@ -1,79 +1,57 @@
 # Tokenwise Skill
 
-Tokenwise helps Codex and Claude Code save input tokens by reading fewer irrelevant files and bringing less repetitive tool output into context. It’s a lightweight [Agent Skill](https://agentskills.io/specification) you can use for quick fixes, dependency tracing, and long test runs.
-
-If a test fails, Tokenwise focuses the agent on the failure and the code it points to. On a large run it keeps the exit status, totals, and each distinct failure while trimming repeated output. If a question spans several modules, it can use an existing project graph to find which files are worth opening.
-
-The savings come from what the agent can safely skip. It still reads the evidence needed to solve the task and runs the relevant checks.
+**Save input tokens on everyday coding tasks.** Tokenwise helps Codex and Claude Code read fewer irrelevant files, skip repetitive log output, and keep the evidence they need to finish the job. Use it for quick fixes, dependency tracing, and debugging sessions.
 
 ## Quick start
 
-### Install with GitHub CLI
-
-Use a version of [GitHub CLI](https://cli.github.com/) that supports `gh skill install`. Run the command for your agent.
-
-**Codex**
+Use [GitHub CLI](https://cli.github.com/) with support for [`gh skill install`](https://cli.github.com/manual/gh_skill_install).
 
 ```sh
+# Codex
 gh skill install Noraara/Tokenwise tokenwise --agent codex --scope user
-```
 
-**Claude Code**
-
-```sh
+# Claude Code
 gh skill install Noraara/Tokenwise tokenwise --agent claude-code --scope user
 ```
 
-Use `--scope user` to make Tokenwise available across projects. To install it in just one project, run the command from that project's Git repository with `--scope project`. GitHub CLI selects the latest tagged release when available and falls back to the default branch. [GitHub CLI skill installation](https://cli.github.com/manual/gh_skill_install)
-
-### Install manually
-
-Download or clone this repository and copy the **entire** [`skills/tokenwise`](skills/tokenwise) folder to your agent's skills directory.
+To install in one project, run from that project's Git checkout with `--scope project`. For manual setup, copy the entire [`skills/tokenwise`](skills/tokenwise) folder into one of these directories. The destination should end in `tokenwise/SKILL.md`.
 
 | Agent | One project | All projects |
 | --- | --- | --- |
 | Codex | `.agents/skills/` | `~/.agents/skills/` |
 | Claude Code | `.claude/skills/` | `~/.claude/skills/` |
 
-Paths starting with `~/` are relative to your user home. For example, in a Codex project the copied file should be at `.agents/skills/tokenwise/SKILL.md`. [Codex skills locations](https://developers.openai.com/api/reference/cli) · [Claude Code skills](https://code.claude.com/docs/en/skills)
+## Try it on a real task
 
-### Try it
+Try this in a fresh Codex session.
 
-Open a fresh session in a project and try the prompt for your agent.
+> Use $tokenwise to find where the retry limit is set and which test covers it.
 
-**Codex**
+In Claude Code, start the same request with `/tokenwise`. Expect the setting and the relevant test, backed by file references. The host can also select the skill automatically when it fits the task.
 
-> Use $tokenwise to find where the retry limit is configured and which test covers it.
+## Where it saves context
 
-**Claude Code**
-
-```text
-/tokenwise Find where the retry limit is configured and which test covers it.
-```
-
-For that first run, expect a direct lookup or exact search, a read of the relevant code and test, and an answer that points to both. The agent can also select Tokenwise for relevant tasks on its own. Explicit invocation is useful when checking your setup.
-
-## How it works
-
-| If you ask the agent to… | Tokenwise starts with… |
+| Task | What Tokenwise brings into context |
 | --- | --- |
-| Find a known setting, symbol or error | A direct read or exact search, followed by the relevant caller or check. |
-| Trace a dependency across several modules | A focused query against a current graph that covers the question, if one exists. Then it verifies decisive links in source. |
-| Explain an earlier project decision | The project's index or handoff, then the original decision record. |
-| Diagnose a large test or build log | The exit status, totals, each distinct failure and enough surrounding lines to investigate. |
+| Find a known symbol or fix a familiar error | The exact match and the relevant callers or checks. |
+| Trace a dependency across modules | A focused query against a current, relevant graph when available, followed by the source files that verify the relationship. |
+| Recover a past project decision | The owning note and decisive evidence, starting from the project index or handoff. |
+| Diagnose a long test run | The exit status, totals, each distinct failure, and the lines needed to investigate. |
 
-An existing graph can point to a few relevant files. The agent still receives text, and the savings come from the material it can skip safely. If the graph is missing, stale or incomplete, Tokenwise falls back to tracing in source. Graph creation and updates can be handled separately. See [graph retrieval](skills/tokenwise/references/graph-retrieval.md) for an example with [Graphify](https://github.com/Graphify-Labs/graphify).
+Tokenwise is a standalone [Agent Skill](https://agentskills.io/specification). [Graphify](https://github.com/Graphify-Labs/graphify) is optional. If the graph is missing, stale, or incomplete, Tokenwise can trace relationships directly in source. It follows explicit requests to use Graphify and project graph-first instructions. See the [graph retrieval guide](skills/tokenwise/references/graph-retrieval.md).
 
-Tokenwise consists of [skill instructions](skills/tokenwise/SKILL.md), short references and [Codex UI metadata](skills/tokenwise/agents/openai.yaml). Graphify and project knowledge tools such as Atlas are optional. Tokenwise ships without an executable, service, hooks or telemetry.
+## Measure the result
 
-## Verify and measure
+Savings depend on the task and how much irrelevant context the agent would otherwise read. Tokenwise has no published benchmark yet. The [evaluation guide](skills/tokenwise/references/evaluation.md) shows how to compare equivalent runs, count retries and graph costs, and check that the result still meets the same requirements.
 
-Use the [verification cases](skills/tokenwise/references/evaluation.md) to check routine lookups, small fixes, graph routing and large logs. To test token savings, compare equivalent runs and account for retries and any index build or refresh cost. Savings vary with the task, host, and available index. Tokenwise has no published benchmark yet.
+## Help and contributing
 
-## Contributing
-
-For an issue or pull request, include the agent and version, a minimal example with synthetic or redacted data, the behavior you expected, and what you observed. For a behavior change, include the relevant verification case and result. Keep instructions used on every invocation short and put optional detail in references.
+For a bug report, include your agent and version, a small redacted example, the behavior you expected, and what the agent did. For a behavior change, include the relevant verification case and result. [GitHub Issues](https://github.com/Noraara/Tokenwise/issues)
 
 ## License
 
-Code and documentation are available under the [MIT license](LICENSE).
+Released under the [MIT license](LICENSE).
+
+## Credit
+
+Made by [Noraara](https://github.com/Noraara).
