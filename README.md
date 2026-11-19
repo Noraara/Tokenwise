@@ -1,6 +1,10 @@
 # Tokenwise
 
-Tokenwise is an [Agent Skill](https://agentskills.io/specification) that helps coding agents spend less context finding their way around a project. It starts with the smallest source that can answer the question, then reads more when the task needs it. It keeps the requested deliverable and verification steps intact.
+Tokenwise helps Codex and Claude Code save input tokens by reading fewer irrelevant files and bringing less repetitive tool output into context. It’s a lightweight [Agent Skill](https://agentskills.io/specification) you can use for quick fixes, dependency tracing, and long test runs.
+
+If a test fails, Tokenwise focuses the agent on the failure and the code it points to. On a large run it keeps the exit status, totals, and each distinct failure while trimming repeated output. If a question spans several modules, it can use an existing project graph to find which files are worth opening.
+
+The savings come from what the agent can safely skip. It still reads the evidence needed to solve the task and runs the relevant checks.
 
 ## Quick start
 
@@ -11,13 +15,13 @@ Use a version of [GitHub CLI](https://cli.github.com/) that supports `gh skill i
 **Codex**
 
 ```sh
-gh skill install Noraara/tokenwise tokenwise --agent codex --scope user
+gh skill install Noraara/Tokenwise tokenwise --agent codex --scope user
 ```
 
 **Claude Code**
 
 ```sh
-gh skill install Noraara/tokenwise tokenwise --agent claude-code --scope user
+gh skill install Noraara/Tokenwise tokenwise --agent claude-code --scope user
 ```
 
 Use `--scope user` to make Tokenwise available across projects. To install it in just one project, run the command from that project's Git repository with `--scope project`. GitHub CLI selects the latest tagged release when available and falls back to the default branch. [GitHub CLI skill installation](https://cli.github.com/manual/gh_skill_install)
@@ -64,7 +68,7 @@ Tokenwise consists of [skill instructions](skills/tokenwise/SKILL.md), short ref
 
 ## Verify and measure
 
-Use the [verification cases](skills/tokenwise/references/evaluation.md) to check routine lookups, small fixes, graph routing and large logs. To test token savings, compare equivalent runs and account for retries and any index build or refresh cost. Results depend on the task, host and available index.
+Use the [verification cases](skills/tokenwise/references/evaluation.md) to check routine lookups, small fixes, graph routing and large logs. To test token savings, compare equivalent runs and account for retries and any index build or refresh cost. Savings vary with the task, host, and available index. Tokenwise has no published benchmark yet.
 
 ## Contributing
 
