@@ -1,4 +1,4 @@
-# Tokenwise
+# Tokenwise Skill
 
 Tokenwise helps Codex and Claude Code save input tokens by reading fewer irrelevant files and bringing less repetitive tool output into context. It’s a lightweight [Agent Skill](https://agentskills.io/specification) you can use for quick fixes, dependency tracing, and long test runs.
 
